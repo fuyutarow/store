@@ -1,0 +1,251 @@
+<p>
+  <button id="sine" type="button" name="button">sine</button>
+  <button id="square" type="button" name="button">square</button>
+  <button id="sawtooth" type="button" name="button">sawtooth</button>
+  <button id="triangle" type="button" name="button">triangle</button>
+</p>
+<p>
+  <button id="bind1" type="button" name="button">bind1</button>
+  <button id="bind2" type="button" name="button">bind2</button>
+  <button id="bind3" type="button" name="button">bind3</button>
+  <button id="bind_jis" type="button" name="button">bind_jis</button>
+</p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+// Web Audio APIを利用するためのインスタンス生成
+var context = new AudioContext();
+//www.asahi-net.or.jp/~HB9T-KTD/music/Japan/Research/DTM/freq_map.html
+//faq.creasus.net/04/0131/CharCode.html
+//www.cambiaresearch.com/articles/15/javascript-key-codesvar
+var keynote = function(key){
+  var ans = "abcdefghijklmnopqrstuvwxyz".indexOf(key);
+  var bet = ", ./"
+  return (ans+1)? ans+65: 48+key;
+}
+
+function bind1(){
+  keymap = {}
+  keymap[keynote("a")]=50;
+  keymap[keynote(1)]=51;
+  keymap[keynote("q")]=52;
+  //keymap[keynote(2)]=66;
+  keymap[keynote("w")]=53;
+  keymap[keynote(3)]=54;
+  keymap[keynote("e")]=55;
+  keymap[keynote(4)]=56;
+  keymap[keynote("r")]=57;
+  keymap[keynote(5)]=58;
+  keymap[keynote("t")]=59;
+
+  keymap[keynote("z")]=60;
+  keymap[keynote("s")]=61;
+  keymap[keynote("x")]=62;
+  keymap[keynote("d")]=63;
+  keymap[keynote("c")]=64;
+  //keymap[keynote("f")]=64;
+  keymap[keynote("v")]=65;
+  keymap[keynote("g")]=66;
+  keymap[keynote("b")]=67;
+  keymap[keynote("h")]=68;
+  keymap[keynote("n")]=69; // A4 == 440 Hz
+  keymap[keynote("j")]=70;
+  keymap[keynote("m")]=71;
+  //keymap[keynote("k")]=68;
+  keymap[188]=72; // ,
+  keymap[keynote("l")]=73;
+  keymap[190]=74; // .
+  keymap[186]=75; // ;
+  keymap[191]=76; // /
+  //keymap[222]=; // '
+  keymap[193]=77; //
+  keymap[220]=78; // \
+  //keymap[keynote(6)]=;
+  keymap[keynote("y")]=77;
+  keymap[keynote(7)]=78;
+  keymap[keynote("u")]=79;
+  keymap[keynote(8)]=80;
+  keymap[keynote("i")]=81;
+  keymap[keynote(9)]=82;
+  keymap[keynote("o")]=83;
+  //keymap[keynote(0)]=80;
+  keymap[keynote("p")]=84;
+  keymap[189]=85; // -
+  keymap[219]=86; // [
+  keymap[187]=87; // =
+  keymap[221]=88; // ]
+  keymap[255]=89; //
+}
+
+function bind2(){
+  keymap = {}
+  keymap[keynote("z")]=48;
+  keymap[keynote("s")]=49;
+  keymap[keynote("x")]=50;
+  keymap[keynote("d")]=51;
+  keymap[keynote("c")]=52;
+  keymap[keynote("v")]=53;
+  keymap[keynote("g")]=54;
+  keymap[keynote("b")]=55;
+  keymap[keynote("h")]=56;
+  keymap[keynote("n")]=57;
+  keymap[keynote("j")]=58;
+  keymap[keynote("m")]=59;
+  keymap[188]=60;
+  keymap["l"]=61;
+  keymap[190]=62;
+  keymap[186]=63;
+  keymap[191]=64;
+  keymap[193]=65;
+  keymap[220]=66;
+  keymap[keynote("q")]=65;
+  keymap[keynote(2)]=66;
+  keymap[keynote("w")]=67;
+  keymap[keynote(3)]=68;
+  keymap[keynote("e")]=69;
+  keymap[keynote(4)]=70;
+  keymap[keynote("r")]=71;
+  keymap[keynote("t")]=72;
+  keymap[keynote(6)]=73;
+  keymap[keynote("y")]=74;
+  keymap[keynote(7)]=75;
+  keymap[keynote("u")]=76;
+  keymap[keynote("i")]=77;
+  keymap[keynote(9)]=78;
+  keymap[keynote("o")]=79;
+  keymap[keynote(0)]=80;
+  keymap[keynote("p")]=81;
+  keymap[189]=82;
+  keymap[219]=83;
+  keymap[221]=84;
+}
+function bind3(){
+  keymap = {}
+  keymap[keynote("a")]=69;
+  keymap[keynote("b")]=70;
+  keymap[keynote("c")]=71;
+  keymap[keynote("d")]=72;
+  keymap[keynote("e")]=73;
+  keymap[keynote("f")]=74;
+  keymap[keynote("g")]=75;
+  keymap[keynote("h")]=76;
+  keymap[keynote("i")]=77;
+  keymap[keynote("j")]=78;
+  keymap[keynote("k")]=79;
+  keymap[keynote("l")]=80;
+  keymap[keynote("m")]=81;
+  keymap[keynote("n")]=82;
+  keymap[keynote("o")]=83;
+  keymap[keynote("p")]=84;
+  keymap[keynote("q")]=85;
+  keymap[keynote("r")]=86;
+  keymap[keynote("s")]=87;
+  keymap[keynote("t")]=88;
+  keymap[keynote("u")]=89;
+  keymap[keynote("v")]=90;
+  keymap[keynote("w")]=91;
+  keymap[keynote("x")]=92;
+  keymap[keynote("y")]=93;
+  keymap[keynote("z")]=94;
+}
+function bind_jis(){
+  keymap = {}
+  keymap[keynote("a")]=50;
+  keymap[keynote(1)]=51;
+  keymap[keynote("q")]=52;
+  //keymap[keynote(2)]=66;
+  keymap[keynote("w")]=53;
+  keymap[keynote(3)]=54;
+  keymap[keynote("e")]=55;
+  keymap[keynote(4)]=56;
+  keymap[keynote("r")]=57;
+  keymap[keynote(5)]=58;
+  keymap[keynote("t")]=59;
+  keymap[keynote("z")]=60;
+  keymap[keynote("s")]=61;
+  keymap[keynote("x")]=62;
+  keymap[keynote("d")]=63;
+  keymap[keynote("c")]=64;
+  //keymap[keynote("f")]=64;
+  keymap[keynote("v")]=65;
+  keymap[keynote("g")]=66;
+  keymap[keynote("b")]=67;
+  keymap[keynote("h")]=68;
+  keymap[keynote("n")]=69; // A4 == 440 Hz
+  keymap[keynote("j")]=70;
+  keymap[keynote("m")]=71;
+  //keymap[keynote("k")]=68;
+  keymap[188]=72; // ,
+  keymap[keynote("l")]=73;
+  keymap[190]=74; // .
+  keymap[187]=75; // ;
+  keymap[191]=76; // /
+  //keymap[222]=; // '
+  keymap[226]=77; //
+  keymap[221]=78; // \
+  //keymap[keynote(6)]=;
+  keymap[keynote("y")]=77;
+  keymap[keynote(7)]=78;
+  keymap[keynote("u")]=79;
+  keymap[keynote(8)]=80;
+  keymap[keynote("i")]=81;
+  keymap[keynote(9)]=82;
+  keymap[keynote("o")]=83;
+  //keymap[keynote(0)]=80;
+  keymap[keynote("p")]=84;
+  keymap[189]=85; // -
+  keymap[192]=86; // @
+  keymap[222]=87; // ^
+  keymap[219]=88; // [
+  keymap[220]=89; // \
+}
+
+var keymap = {};
+bind1();
+$("#bind1").click(function() { bind1(); })
+$("#bind2").click(function() { bind2(); })
+$("#bind3").click(function() { bind3(); })
+$("#bind_jis").click(function() { bind_jis(); })
+
+var oscillotype = 'sawtooth';
+$("#sine").click(function(){  oscillotype = 'sine';console.log('sine');})
+$("#square").click(function() { oscillotype = 'square'})
+$("#sawtooth").click(function() { oscillotype = 'sawtooth' })
+$("#triangle").click(function() { oscillotype = 'triangle' })
+
+
+
+document.onkeydown = function(keyDownEvent) {
+  // キー押しっぱなしの状態で発火した場合は、動作を終了する
+  if (keyDownEvent.repeat === true) return;
+
+  var oscillator = context.createOscillator();
+  var freq = 440.0 * Math.pow(2.0, (keymap[keyDownEvent.keyCode] - 69.0) / 12.0);
+  oscillator.frequency.value = freq;
+
+  oscillator.type = oscillotype
+
+  // OscillatorNode (Input) -> GainNode (Volume) -> AudioDestinationNode (Output)
+  var gain = context.createGain();
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(0);
+
+  // キーを離した際に音が止まるよう、イベントを登録する
+  document.addEventListener('keyup', checkKeyUp);
+
+  // キーを離したかどうかチェック
+  function checkKeyUp(keyUpEvent) {
+    // 離したキーが、押下したキーで無い場合は処理を行わない
+    if (keyUpEvent.keyCode !== keyDownEvent.keyCode) {
+      return;
+    }
+
+    // オシレーターを停止する
+    oscillator.stop();
+    // 自身のイベントを削除
+    removeEventListener('keyup', checkKeyUp);
+  }
+};
+})
+</script>
